@@ -2049,7 +2049,7 @@ let api = function Binance() {
             * @param {function} callback - callback function
             * @return {string} the websocket endpoint
             */
-            miniTicker: function miniTicker(callback) {
+            miniTicker: function miniTicker(symbol, callback) {
                 let reconnect = function () {
                     if (Binance.options.reconnect) miniTicker(callback);
                 };
