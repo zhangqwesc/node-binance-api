@@ -2051,7 +2051,7 @@ let api = function Binance() {
             */
             miniTicker: function miniTicker(symbol, callback) {
                 let reconnect = function () {
-                    if (Binance.options.reconnect) miniTicker(callback);
+                    if (Binance.options.reconnect) miniTicker(symbol, callback);
                 };
                 let subscription = subscribe(symbol.toLowerCase()+"@miniTicker", function (data) {
                     let markets = {
