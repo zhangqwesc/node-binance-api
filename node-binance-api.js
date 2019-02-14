@@ -2017,13 +2017,13 @@ let api = function Binance() {
             },
 
             /**
-            * Websocket mini ticker
+            * Websocket mini ticker all
             * @param {function} callback - callback function
             * @return {string} the websocket endpoint
             */
-            miniTicker: function miniTicker(callback) {
+            miniTickerAll: function miniTickerAll(callback) {
                 let reconnect = function () {
-                    if (Binance.options.reconnect) miniTicker(callback);
+                    if (Binance.options.reconnect) miniTickerAll(callback);
                 };
                 let subscription = subscribe('!miniTicker@arr', function (data) {
                     let markets = {};
@@ -2038,6 +2038,26 @@ let api = function Binance() {
                             eventTime: obj.E
                         };
                     }
+                    callback(markets);
+                }, reconnect);
+                return subscription.endpoint;
+            },
+            
+            /**
+            * Websocket mini ticker
+            * @param {string} symbol - symbol
+            * @param {function} callback - callback function
+            * @return {string} the websocket endpoint
+            */
+            miniTicker: function miniTicker(callback) {
+                let reconnect = function () {
+                    if (Binance.options.reconnect) miniTicker(callback);
+                };
+                let subscription = subscribe(symbol.toLowerCase()+"@miniTicker", function (data) {
+                    let markets = {
+                        price: data.c,
+                        timestamp: data.E
+                    };
                     callback(markets);
                 }, reconnect);
                 return subscription.endpoint;
